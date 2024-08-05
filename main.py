@@ -159,19 +159,25 @@ def determine_subject_and_tags(content: str) -> tuple:
 
 # Returns Title, Content, Type, Tags, Subject of resource
 async def extract_metadata(url: str) -> dict:
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+    }
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.get(url) as response:
+            async with session.get(url, headers=headers) as response:
+                if response.status == 403:
+                    print("Blocked by the website")
+                    return {'title': "Blocked", 'content': "", 'type': "Blocked", 'tags': [], 'subject': "💬 Blocked"}
                 html = await response.text()
 
         soup = BeautifulSoup(html, 'html.parser')
         formatted_date = datetime.now().strftime("%d/%m/%Y")
         title = soup.title.string if soup.title else "Title" + formatted_date
         content = ' '.join([p.text for p in soup.find_all('p')])
-        
+
         subject, tags = determine_subject_and_tags(content)
         resource_type = determine_resource_type(url, content, soup)
-        
+
         return {
             'title': title.strip(),
             'content': content,
