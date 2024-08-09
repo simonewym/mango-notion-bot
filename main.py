@@ -159,12 +159,22 @@ def determine_subject_and_tags(content: str) -> tuple:
 
 # Returns Title, Content, Type, Tags, Subject of resource
 async def extract_metadata(url: str) -> dict:
-    headers = {
+    request_headers = {
+        'referer': 'https://www.scrapingcourse.com/ecommerce/',
+        'accept-language': 'en-US,en;q=0.9',
+        'content-type': 'application/json',
+        'accept-encoding': 'gzip, deflate, br',
+        'sec-ch-device-memory': '8',
+        'sec-ch-ua': '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
+        'sec-ch-ua-platform': "Windows",
+        'sec-ch-ua-platform-version': '"10.0.0"',
+        'sec-ch-viewport-width': '792',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
     }
+
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.get(url, headers=headers) as response:
+            async with session.get(url, headers=request_headers) as response:
                 if response.status == 403:
                     print("Blocked by the website")
                     return {'title': "Blocked", 'content': "", 'type': "Blocked", 'tags': [], 'subject': "💬 Blocked"}
