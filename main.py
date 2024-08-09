@@ -161,13 +161,12 @@ def determine_subject_and_tags(content: str) -> tuple:
 async def extract_metadata(url: str) -> dict:
     request_headers = {
         'referer': 'https://www.scrapingcourse.com/ecommerce/',
-        'accept-language': 'en-US,en;q=0.9',
+        'accept-language': 'en-GB,en;q=0.9,de-DE;q=0.8,de;q=0.7,yue-HK;q=0.6,yue;q=0.5,en-US;q=0.4,zh-TW;q=0.3,zh;q=0.2',
         'content-type': 'application/json',
-        'accept-encoding': 'gzip, deflate, br',
+        'accept-encoding': 'gzip, deflate, br, zstd',
         'sec-ch-device-memory': '8',
-        'sec-ch-ua': '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
-        'sec-ch-ua-platform': "Windows",
-        'sec-ch-ua-platform-version': '"10.0.0"',
+        'sec-ch-ua': '"Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"',
+        'sec-ch-ua-platform': "Android",
         'sec-ch-viewport-width': '792',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
     }
